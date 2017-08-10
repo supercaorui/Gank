@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_draw_client"
+            android:icon="@drawable/drawer_icon_client"
+            android:title="@string/client"/>
+        <item
+            android:id="@+id/menu_draw_recommend"
+            android:icon="@drawable/drawer_icon_recommend"
+            android:title="@string/recomend"/>
+
+        <item
+            android:id="@+id/menu_draw_app"
+            android:icon="@drawable/app"
+            android:title="@string/app"/>
+
+        <item
+            android:id="@+id/menu_draw_expandresource"
+            android:icon="@drawable/drawer_icon_resource"
+            android:title="@string/expandresource"/>
+        <item
+            android:id="@+id/menu_draw_video"
+            android:icon="@drawable/drawer_icon_video"
+            android:title="@string/video"/>
+
+        <item
+            android:id="@+id/menu_draw_theme"
+            android:icon="@drawable/drawer_icon_theme"
+            android:title="@string/menu_theme"/>
+    </group>
+</menu>

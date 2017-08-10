@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_home"
+            android:icon="@drawable/bottom_home"
+            android:title="@string/home"/>
+        <item
+            android:id="@+id/menu_Read"
+            android:icon="@drawable/bottom_read"
+            android:title="@string/read"/>
+        <item
+            android:id="@+id/menu_Me"
+            android:icon="@drawable/bottom_me"
+            android:title="@string/mine"/>
+    </group>
+</menu>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gank</string>
+    <string name="home">Home</string>
+    <string name="mine">Mine</string>
+    <string name="read">Read</string>
+    <string name="client">前端</string>
+    <string name="recomend">推荐</string>
+    <string name="app">App</string>
+    <string name="expandresource">拓展资源</string>
+    <string name="video">视频</string>
+    <string name="menu_theme">主题</string>
+    <string name="menu_edit">编辑</string>
+    <string name="menu_search">搜索</string>
+    <string name="information">详情介绍</string>
+</resources>
