@@ -1,17 +1,16 @@
-package com.example.cao.gank.DatabaseTool;
+package com.example.cao.gank.databasetool;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.cao.gank.model.CollectionBean;
-import com.example.cao.gank.model.ItemBean;
 import com.usher.greendao_demo.greendao.gen.CollectionBeanDao;
 import com.usher.greendao_demo.greendao.gen.DaoMaster;
 import com.usher.greendao_demo.greendao.gen.DaoSession;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,10 +19,12 @@ import java.util.List;
 
 public class Dao {
     private CollectionBeanDao collectionBeanDao;
-    private long id;
+    private long id ;
+    private int count = 0;
     private Context context;
-    public Dao(CollectionBeanDao collectionBeanDao ,Context context) {
-        this.collectionBeanDao = collectionBeanDao;
+    private String TAG = "daoben";
+
+    public Dao(Context context) {
         this.context = context;
         initDao();
     }
@@ -37,15 +38,18 @@ public class Dao {
     }
 
     public void insert(CollectionBean bean){
-        id++;
+//        id = id +1;
+//        count++;
+        Log.d(TAG, "insert: "+bean.getId());
+//        Log.d(TAG, "count: "+count);
         collectionBeanDao.insert(bean);
     }
-    public void delete(long id){
-        id++;
-        collectionBeanDao.deleteByKey(id);
+    public void delete(CollectionBean id){
+        //id++;
+        collectionBeanDao.delete(id);
     }
     public  List<CollectionBean> query(){
-        id++;
+        //id++;
         QueryBuilder<CollectionBean> qb = collectionBeanDao.queryBuilder();
         List<CollectionBean> list = qb.list();
         return list;

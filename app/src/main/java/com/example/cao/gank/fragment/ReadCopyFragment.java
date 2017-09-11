@@ -116,13 +116,22 @@ public class ReadCopyFragment extends Fragment {
 //                mHandler.sendEmptyMessage(2);
 //            }
 //        });
-
+        //item的点击事件
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 String url = mlist.get(position).getUrl();
                 Intent intent = new Intent(mContext, InfoActivity.class);
                 intent.putExtra("url",url);
+                intent.putExtra("title",mlist.get(position).getTitle());
+                intent.putExtra("author",mlist.get(position).getDescription());
+                intent.putExtra("time",mlist.get(position).getCtime());
+                if (mlist.get(position).getPicUrl()!=null){
+
+                    intent.putExtra("imgurl",mlist.get(position).getPicUrl());
+                }else {
+                    intent.putExtra("imgurl","");
+                }
                 mContext.startActivity(intent);
             }
         });

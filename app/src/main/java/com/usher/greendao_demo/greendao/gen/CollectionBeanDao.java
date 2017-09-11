@@ -24,11 +24,12 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
         public final static Property Dec = new Property(2, String.class, "dec", false, "DEC");
         public final static Property Time = new Property(3, String.class, "time", false, "TIME");
         public final static Property ImgUrl = new Property(4, String.class, "imgUrl", false, "IMG_URL");
+        public final static Property Url = new Property(5, String.class, "url", false, "URL");
     }
 
 
@@ -44,11 +45,12 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"COLLECTION_BEAN\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: title
                 "\"DEC\" TEXT," + // 2: dec
                 "\"TIME\" TEXT," + // 3: time
-                "\"IMG_URL\" TEXT);"); // 4: imgUrl
+                "\"IMG_URL\" TEXT," + // 4: imgUrl
+                "\"URL\" TEXT);"); // 5: url
     }
 
     /** Drops the underlying database table. */
@@ -60,7 +62,11 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, CollectionBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
  
         String title = entity.getTitle();
         if (title != null) {
@@ -80,13 +86,22 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
         String imgUrl = entity.getImgUrl();
         if (imgUrl != null) {
             stmt.bindString(5, imgUrl);
+        }
+ 
+        String url = entity.getUrl();
+        if (url != null) {
+            stmt.bindString(6, url);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, CollectionBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
  
         String title = entity.getTitle();
         if (title != null) {
@@ -107,32 +122,39 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
         if (imgUrl != null) {
             stmt.bindString(5, imgUrl);
         }
+ 
+        String url = entity.getUrl();
+        if (url != null) {
+            stmt.bindString(6, url);
+        }
     }
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public CollectionBean readEntity(Cursor cursor, int offset) {
         CollectionBean entity = new CollectionBean( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // dec
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // time
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // imgUrl
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // imgUrl
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // url
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, CollectionBean entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setDec(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setTime(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setImgUrl(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setUrl(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override
@@ -152,7 +174,7 @@ public class CollectionBeanDao extends AbstractDao<CollectionBean, Long> {
 
     @Override
     public boolean hasKey(CollectionBean entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override

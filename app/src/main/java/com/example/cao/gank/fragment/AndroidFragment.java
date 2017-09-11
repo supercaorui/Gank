@@ -106,6 +106,15 @@ public class AndroidFragment extends Fragment {
                 String url = data.getUrl();
                 Intent intent = new Intent(mContext, InfoActivity.class);
                 intent.putExtra("url",url);
+                intent.putExtra("title",data.getDesc());
+                intent.putExtra("author",data.getWho());
+                intent.putExtra("time",data.getPublishedAt());
+                if (data.getImages()!=null){
+
+                    intent.putExtra("imgurl",data.getImages().get(0));
+                }else {
+                    intent.putExtra("imgurl","");
+                }
                 mContext.startActivity(intent);
             }
         });

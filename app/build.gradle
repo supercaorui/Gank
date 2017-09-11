@@ -52,4 +52,5 @@ dependencies {
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.3'
     compile 'org.greenrobot:greendao:3.2.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.android:flexbox:0.3.0'
 }

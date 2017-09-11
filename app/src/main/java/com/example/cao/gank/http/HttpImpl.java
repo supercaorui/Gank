@@ -32,4 +32,14 @@ public class HttpImpl {
         Call<ReadBean> readData = requestHttp.getReadData(key, pageSize, page);
         readData.enqueue(callback);
     }
+    //加载搜索页面
+    public static void loadSearch(String searchKey,int page,Callback<ItemBean> callback){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GankUrl.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RequestHttp http = retrofit.create(RequestHttp.class);
+        Call<ItemBean> searchData = http.getSearchData(searchKey, page);
+        searchData.enqueue(callback);
+    }
 }

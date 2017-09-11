@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +15,21 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.cao.gank.R;
+import com.example.cao.gank.databasetool.Dao;
+import com.example.cao.gank.model.CollectionBean;
+
+import java.util.List;
 
 public class InfoActivity extends AppCompatActivity {
 
     private WebView webView;
     private Toolbar toolbar;
+    private String url;
+    private CollectionBean collectionBean;
+    private Dao dao;
+    private boolean isLike = false;
+    private boolean isCollected;
+    private String TAG = "info";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +39,25 @@ public class InfoActivity extends AppCompatActivity {
         initview();
         initWebView();
     }
-
+    private Long id ;
     private void initview() {
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        url = intent.getStringExtra("url");
+        String title = intent.getStringExtra("title");
+        String author = intent.getStringExtra("author");
+        String time = intent.getStringExtra("time");
+        String imgurl = intent.getStringExtra("imgurl");
+
+        collectionBean = new CollectionBean(id,title,author,time,imgurl,url);
+       // Log.d(TAG, "id: "+id);
+        dao = new Dao(this);
+        isCollected = isCollected();
+        if (isCollected()){
+            isLike = true;
+
+        }else {
+            isLike = false;
+        }
         webView = (WebView) findViewById(R.id.webview);
         toolbar = (Toolbar) findViewById(R.id.info_toolbar);
         webView.loadUrl(url);
@@ -104,6 +130,15 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.info,menu);
+        MenuItem item = menu.findItem(R.id.menu_like);
+        isCollected = isCollected();
+        if (isCollected()){
+            isLike = true;
+            item.setIcon(R.drawable.likered);
+        }else {
+            isLike = false;
+            item.setIcon(R.drawable.like);
+        }
         return true;
     }
 
@@ -114,6 +149,15 @@ public class InfoActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menu_like:
+                if (!isLike){
+                    dao.insert(collectionBean);
+                    item.setIcon(R.drawable.likered );
+                    isLike = true;
+                }else {
+                    dao.delete(collectionBean);
+                    item.setIcon(R.drawable.like);
+                    isLike = false;
+                }
                 break;
             case R.id.menu_share:
                 break;
@@ -122,4 +166,16 @@ public class InfoActivity extends AppCompatActivity {
         }
         return true;
     }
+    //判断是否已经收藏此文章
+    public boolean isCollected(){
+        List<CollectionBean> list = dao.query();
+        for (int i = 0; i < list.size(); i++) {
+            if (url.equals(list.get(i).getUrl())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

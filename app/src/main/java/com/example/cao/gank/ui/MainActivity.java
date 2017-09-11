@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawer.closeDrawers();
                 switch (item.getItemId()){
                     case R.id.menu_Read:
                         viewpager.setCurrentItem(1);
@@ -186,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_edit:
                 break;
             case R.id.menu_search:
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case android.R.id.home:
                 drawer.openDrawer(Gravity.START);

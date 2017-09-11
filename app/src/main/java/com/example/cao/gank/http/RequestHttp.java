@@ -32,5 +32,9 @@ public interface RequestHttp {
     Call<ReadBean>getReadData(@Query("key") String key,
                               @Query("num") int num,
                               @Query("page") int page);
+    //搜索模块
+    @GET("search/query/{searchKey}/category/all/count/10/page/{page}")
+    Call<ItemBean> getSearchData(@Path("searchKey") String searchkey,
+                                        @Path("page") int page);
 
 }

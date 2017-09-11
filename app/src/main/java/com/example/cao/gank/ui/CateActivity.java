@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.cao.gank.R;
@@ -72,7 +73,31 @@ public class CateActivity extends AppCompatActivity {
         supportActionBar.setHomeAsUpIndicator(R.drawable.menu_action_back);
         initdata();
         initCate();
+        initListener();
     }
+
+    private void initListener() {
+        readAdapter.setOnItemClickListener(new ReadAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, ItemBean.ResultsBean data) {
+                String url = data.getUrl();
+                Intent intent = new Intent(mContext, InfoActivity.class);
+                intent.putExtra("url",url);
+                intent.putExtra("title",data.getDesc());
+                intent.putExtra("author",data.getWho());
+                intent.putExtra("time",data.getPublishedAt());
+                if (data.getImages()!=null){
+
+                    intent.putExtra("imgurl",data.getImages().get(0));
+                }else {
+                    intent.putExtra("imgurl","");
+                }
+                mContext.startActivity(intent);
+            }
+        });
+    }
+
+
     private void initCate() {
         if (mlist == null) {
 
