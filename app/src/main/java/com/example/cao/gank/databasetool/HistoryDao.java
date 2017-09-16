@@ -30,13 +30,28 @@ public class HistoryDao {
         hIstoryDao = daoSession.getHIstoryDao();
     }
     public void insert(HIstory history){
-        hIstoryDao.insert(history);
+        hIstoryDao.insertOrReplace(history);
     }
     public void delete(Long id){
         hIstoryDao.deleteByKey(id);
+
     }
     public List<HIstory> query(){
         return hIstoryDao.queryBuilder().list();
     }
+    public void deleteAll(){
+        hIstoryDao.deleteAll();
+    }
+    //查询是否重复
+    public boolean isDouble(String string){
 
+        List<HIstory> list = hIstoryDao.queryBuilder().list();
+        for (int i = 0; i < list.size(); i++) {
+            HIstory hIstory = list.get(i);
+            if (string.equals(hIstory.getKeyName())){
+                return true;
+            }
+        }
+        return false;
+    }
 }

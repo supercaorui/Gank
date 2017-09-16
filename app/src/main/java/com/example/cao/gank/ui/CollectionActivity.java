@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.cao.gank.R;
 import com.example.cao.gank.adapter.CollectionAdapter;
+import com.example.cao.gank.base.BaseActivity;
 import com.example.cao.gank.databasetool.Dao;
 import com.example.cao.gank.model.CollectionBean;
 import com.example.cao.gank.model.ItemBean;
@@ -19,7 +20,7 @@ import com.example.cao.gank.model.ItemBean;
 import java.util.List;
 
 
-public class CollectionActivity extends AppCompatActivity {
+public class CollectionActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView recycler;

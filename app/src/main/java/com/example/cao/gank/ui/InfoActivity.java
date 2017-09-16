@@ -15,12 +15,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.cao.gank.R;
+import com.example.cao.gank.base.BaseActivity;
 import com.example.cao.gank.databasetool.Dao;
 import com.example.cao.gank.model.CollectionBean;
 
 import java.util.List;
 
-public class InfoActivity extends AppCompatActivity {
+public class InfoActivity extends BaseActivity {
 
     private WebView webView;
     private Toolbar toolbar;

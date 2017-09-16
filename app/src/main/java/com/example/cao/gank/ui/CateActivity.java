@@ -19,6 +19,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ToastUtils;
 import com.example.cao.gank.R;
 import com.example.cao.gank.adapter.ReadAdapter;
+import com.example.cao.gank.base.BaseActivity;
 import com.example.cao.gank.congiure.GankUrl;
 import com.example.cao.gank.http.HttpImpl;
 import com.example.cao.gank.listener.EndLessOnScrollListener;
@@ -33,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CateActivity extends AppCompatActivity {
+public class CateActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView recycler;

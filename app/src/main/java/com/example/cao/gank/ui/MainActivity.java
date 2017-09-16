@@ -20,11 +20,13 @@ import android.view.MenuItem;
 
 import com.example.cao.gank.R;
 import com.example.cao.gank.adapter.MainAdapter;
+import com.example.cao.gank.base.BaseActivity;
 import com.example.cao.gank.congiure.GankUrl;
 import com.example.cao.gank.fragment.HomeFragment;
 import com.example.cao.gank.fragment.MineFragment;
 import com.example.cao.gank.fragment.ReadCopyFragment;
 import com.example.cao.gank.fragment.ReadFragment;
+import com.zhy.changeskin.SkinManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SkinManager.getInstance().register(this);
         initView();
         initListener();
         bottom.setSelectedItemId(R.id.menu_Read);
@@ -132,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.startActivity(intent5);
                         break;
                     case R.id.menu_draw_theme:
-
+                        Intent intent6 = new Intent(context, ThemeActivity.class);
+                        MainActivity.this.startActivity(intent6);
                         break;
                 }
                 return true;
@@ -206,4 +210,9 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SkinManager.getInstance().unregister(this);
+    }
 }

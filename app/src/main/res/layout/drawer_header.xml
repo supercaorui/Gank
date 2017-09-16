@@ -4,6 +4,8 @@
     android:layout_height="200dp">
     <ImageView
         android:src="@drawable/headbg"
+        android:tag="skin:main_bg:src"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 </LinearLayout>

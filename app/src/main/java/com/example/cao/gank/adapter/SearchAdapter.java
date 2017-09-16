@@ -77,4 +77,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.listener = listener;
     }
+    public void setOnDeleteItem(DeleteItem deleteItem){
+        this.deleteItem = deleteItem;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.cao.gank.model;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Property;
 
 /**
  * Created by Administrator on 2017/9/4.
@@ -10,6 +11,7 @@ import org.greenrobot.greendao.annotation.Id;
  */
 @Entity
 public class HIstory {
+    @Property(nameInDb = "_id")
     @Id(autoincrement = true)
     private Long id;
     private String keyName;

@@ -1,11 +1,13 @@
 package com.example.cao.gank.ui;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.cao.gank.R;
 import com.example.cao.gank.adapter.SearchAdapter;
+import com.example.cao.gank.base.BaseActivity;
 import com.example.cao.gank.databasetool.HistoryDao;
 import com.example.cao.gank.model.HIstory;
 import com.google.android.flexbox.FlexboxLayout;
@@ -24,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //搜索界面调到搜索列表界面，用activity的启动模式
-public class SearchActivity extends AppCompatActivity implements SearchAdapter.DeleteItem{
-    private ImageView img_back,delete;
+public class SearchActivity extends BaseActivity implements SearchAdapter.DeleteItem{
+    private ImageView img_back,deleteAll;
     private EditText edit;
     private TextView search_bt;
     private FlexboxLayout flex;
@@ -35,6 +38,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.D
     private List<String> mKeyList = new ArrayList<>();
     private HistoryDao historyDao;
     private SearchAdapter searchAdapter;
+    private long max = Integer.MAX_VALUE;
+    private Long id = new Long(1);
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -64,9 +69,38 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.D
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (edit.getText() !=null){
+                    String string = edit.getText().toString().trim();
+                    Long id1 = new Long(mKeyList.size()+1);
+                    HIstory hIstory = new HIstory(id1, string);
+                    historyDao.insert(hIstory);
+                    Intent intent = new Intent(SearchActivity.this, SearchInfoActivity.class);
+                    intent.putExtra("key",string);
+                    SearchActivity.this.startActivity(intent);
+                    finish();
+                }
             }
         });
+        searchAdapter.setOnDeleteItem(this);
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, String string) {
+                Intent intent = new Intent(SearchActivity.this, SearchInfoActivity.class);
+                intent.putExtra("key",string);
+                SearchActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                mKeyList.clear();
+                historyDao.deleteAll();
+                handler.sendEmptyMessage(1);
+            }
+        });
+
     }
 
     //初始化历史记录
@@ -104,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.D
         img_back = (ImageView) findViewById(R.id.search_back);
         edit = (EditText) findViewById(R.id.search_edit);
         search_bt = (TextView) findViewById(R.id.search_bt);
-        delete = (ImageView) findViewById(R.id.search_delete);
+        deleteAll = (ImageView) findViewById(R.id.search_delete);
         flex = (FlexboxLayout) findViewById(R.id.search_flex);
         recycle= (RecyclerView) findViewById(R.id.search_recycle);
         historyDao = new HistoryDao(this);
@@ -117,6 +151,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.D
     @Override
     public void deleteItem(int position) {
         mKeyList.remove(position);
+        historyDao.delete(new Long(position+1));
         handler.sendEmptyMessage(1);
     }
 }
